@@ -63,7 +63,7 @@ namespace IR_receiver {
             this.address = 0;
             this.command = 0;
         }
-        address: number;
+        address: number;  
         command: number;
         IR_pin: DigitalPin;
     }
@@ -94,23 +94,24 @@ namespace IR_receiver {
     function IR_init(IR_pin: DigitalPin) {
         pins.onPulsed(IR_pin, PulseValue.Low, () => { //interrupt event
             LpulseTime = pins.pulseDuration();        //measure the pulse
-            if (8500 < LpulseTime && LpulseTime < 9500) {  //9ms
+            if (8250 < LpulseTime && LpulseTime < 9250) {  //9ms
                 LpulseCounter = 0;
             }
-            if (LpulseCounter < maxPulse) {
+            if (LpulseCounter < maxPulse && repeatedPulse == false) {
                 low_pulse[LpulseCounter] = LpulseTime;
                 LpulseCounter += 1;
             }
         });
         pins.onPulsed(IR_pin, PulseValue.High, () => {
             HpulseTime = pins.pulseDuration();
-            if (4000 < HpulseTime && HpulseTime < 5000) {  //4.5ms
+            if (4250 < HpulseTime && HpulseTime < 4750) {  //4.5ms
                 HpulseCounter = 0;
+                repeatedPulse = false;
             }
             if (2000 < HpulseTime && HpulseTime < 2500) {  //2.25ms
                 repeatedPulse = true;
             }
-            if (HpulseCounter < maxPulse) {
+            if (HpulseCounter < maxPulse && repeatedPulse == false) {
                 high_pulse[HpulseCounter] = HpulseTime;
                 HpulseCounter += 1;
             }
@@ -125,15 +126,12 @@ namespace IR_receiver {
         let tempCommand: number = 0;
         let inverseCommand: number = 0;
         let num: number;
-        //clear the RI receiver class address and command.
-        IR_R.address = 0;
-        IR_R.command = 0;
         //confirm start pulse
-        if (8500 < low_pulse[0] && low_pulse[0] < 9500 && 4000 < high_pulse[0] && high_pulse[0] < 5000) {
+        if (8250 < low_pulse[0] && low_pulse[0] < 9250 && 4250 < high_pulse[0] && high_pulse[0] < 5750) {
             //conver the pulse into data
             for (num = 1; num < maxPulse; num++) {
-                if (500 < low_pulse[num] && low_pulse[num] < 600) {      //0.56ms
-                    if (1000 < high_pulse[num] && high_pulse[num] < 2000) {  //1.69ms = 1, 0.56ms = 0
+                if (460 < low_pulse[num] && low_pulse[num] < 660) {      //0.56ms
+                    if (1450 < high_pulse[num] && high_pulse[num] < 1800) {  //1.69ms = 1, 0.56ms = 0
                         if (1 <= num && num < 9) {    //conver the pulse into address
                             tempAddress |= 1 << (num - 1);
                         }
@@ -149,17 +147,15 @@ namespace IR_receiver {
                     }
                 }
             }
-            //check the data and return the data to IR receiver class.
-            if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
-                IR_R.address = tempAddress;
-                IR_R.command = tempCommand;
-            } else {  //Return -1 if check error.
-                IR_R.address = -1;
-                IR_R.command = -1;
-            }
         }
-        low_pulse[0] = 0;
-        high_pulse[0] = 0;
+        //check the data and return the data to IR receiver class.
+        if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
+            IR_R.address = tempAddress;
+            IR_R.command = tempCommand;
+        } else {  //Return -1 if check error.
+            IR_R.address = -1;
+            IR_R.command = -1;
+        }
     }
     /**
      * Connects to the IR receiver module at the specified pin.
@@ -186,18 +182,12 @@ namespace IR_receiver {
     //% weight=57
     export function pressedIrButton(): number {
         IR_data_processing();
-        let i: number = 0;
+        /*let i: number = 0;
         for (i = 0; i < 33; i++) {
-            basic.showNumber(high_pulse[i]);
+            basic.showNumber(low_pulse[i]);
             basic.pause(500);
-        }
-        return IR_R.command;
-        /*if (repeatedPulse == true) {
-            repeatedPulse = false;
-            return 0xff;
-        } else {
-            return IR_R.command;
         }*/
+        return IR_R.command;
     }
 }
 
