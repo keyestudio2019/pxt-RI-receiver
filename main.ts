@@ -56,7 +56,7 @@ const enum IrButtonAction {
 //% color="#ff6800" weight=10 icon="\uf1eb"
 namespace IR_receiver {
     /**
-     * create a IR receiver class
+     * define a IR receiver class
      */
     class IR_rec {
         constructor() {
@@ -67,25 +67,34 @@ namespace IR_receiver {
         command: number;
         IR_pin: DigitalPin;
     }
+    //create a IR receiver class
     let IR_R = new IR_rec;
-    let maxPulse: number = 17;      //define nec maximum number of pulses is 34
-    //Divided into high and low pulse 17
-    let low_pulse: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let high_pulse: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let LpulseCounter: number = 17; //must define for 17,
-    let HpulseCounter: number = 17; //otherwise there is a risk of error in receiving the first data. 
+
+    //define nec_IR maximum number of pulses is 33.
+    //create 2 pulse cache array.
+    let maxPulse: number = 33;
+    let low_pulse: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let high_pulse: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    //must define for 33,
+    //otherwise there is a risk of error in receiving the first data.
+    let LpulseCounter: number = 33;
+    let HpulseCounter: number = 33;
+
     let LpulseTime: number = 0;
     let HpulseTime: number = 0;
     let pulse9ms: boolean = false;
     let pulse4ms: boolean = false;
+    //This variable will become true when the pulse is repeated
+    let repeatedPulse: boolean = false;
 
     /**
-     * initialize the IR receiver
+     * initialize the IR receiver function
      */
     function IR_init(IR_pin: DigitalPin) {
         pins.onPulsed(IR_pin, PulseValue.Low, () => { //interrupt event
             LpulseTime = pins.pulseDuration();        //measure the pulse
-            if (8500 < LpulseTime && LpulseTime < 9500) {
+            if (8500 < LpulseTime && LpulseTime < 9500) {  //9ms
                 LpulseCounter = 0;
             }
             if (LpulseCounter < maxPulse) {
@@ -95,8 +104,11 @@ namespace IR_receiver {
         });
         pins.onPulsed(IR_pin, PulseValue.High, () => {
             HpulseTime = pins.pulseDuration();
-            if (4000 < HpulseTime && HpulseTime < 5000) {
+            if (4000 < HpulseTime && HpulseTime < 5000) {  //4.5ms
                 HpulseCounter = 0;
+            }
+            if (2000 < HpulseTime && HpulseTime < 2500) {  //2.25ms
+                repeatedPulse = true;
             }
             if (HpulseCounter < maxPulse) {
                 high_pulse[HpulseCounter] = HpulseTime;
@@ -105,13 +117,49 @@ namespace IR_receiver {
         });
     }
     /**
-     * Convert the pulse into data
+     * Convert the pulse into data function
      */
     function IR_data_processing() {
-        //confirm start signal
+        let tempAddress: number = 0;
+        let inverseAddress: number = 0;
+        let tempCommand: number = 0;
+        let inverseCommand: number = 0;
+        let num: number;
+        //clear the RI receiver class address and command.
+        IR_R.address = 0;
+        IR_R.command = 0;
+        //confirm start pulse
         if (8500 < low_pulse[0] && low_pulse[0] < 9500 && 4000 < high_pulse[0] && high_pulse[0] < 5000) {
-
+            //conver the pulse into data
+            for (num = 1; num < maxPulse; num++) {
+                if (500 < low_pulse[num] && low_pulse[num] < 600) {      //0.56ms
+                    if (1000 < high_pulse[num] && high_pulse[num] < 2000) {  //1.69ms = 1, 0.56ms = 0
+                        if (1 <= num && num < 9) {    //conver the pulse into address
+                            tempAddress |= 1 << (num - 1);
+                        }
+                        if (9 <= num && num < 17) {   //conver the pulse into inverse address
+                            inverseAddress |= 1 << (num - 9);
+                        }
+                        if (17 <= num && num < 25) {   //conver the pulse into command
+                            tempCommand |= 1 << (num - 17);
+                        }
+                        if (25 <= num && num < 33) {   //conver the pulse into inverse command
+                            inverseCommand |= 1 << (num - 25);
+                        }
+                    }
+                }
+            }
+            //check the data and return the data to IR receiver class.
+            if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
+                IR_R.address = tempAddress;
+                IR_R.command = tempCommand;
+            } else {  //Return -1 if check error.
+                IR_R.address = -1;
+                IR_R.command = -1;
+            }
         }
+        low_pulse[0] = 0;
+        high_pulse[0] = 0;
     }
     /**
      * Connects to the IR receiver module at the specified pin.
@@ -125,18 +173,31 @@ namespace IR_receiver {
     //% IR_pin.fieldOptions.tooltips="false"
     //% weight=90
     export function connectInfrared(IR_pin: DigitalPin): void {
-        IR_R.IR_pin = IR_pin;
-        IR_init(IR_R.IR_pin);
+        IR_R.IR_pin = IR_pin;   //define IR receiver control pin
+        IR_init(IR_R.IR_pin);   //initialize the IR receiver
     }
     /**
      * Returns the code of the IR button that is currently pressed and 0 if no button is pressed.
+     * It is recommended to delay 110ms to read the data once
      */
     //% subcategory="IR Remote"
     //% blockId=makerbit_infrared_pressed_button
     //% block="IR button"
     //% weight=57
     export function pressedIrButton(): number {
-        return high_pulse[0];
+        IR_data_processing();
+        let i: number = 0;
+        for (i = 0; i < 33; i++) {
+            basic.showNumber(high_pulse[i]);
+            basic.pause(500);
+        }
+        return IR_R.command;
+        /*if (repeatedPulse == true) {
+            repeatedPulse = false;
+            return 0xff;
+        } else {
+            return IR_R.command;
+        }*/
     }
 }
 
