@@ -132,33 +132,32 @@ namespace IR_receiver {
         if (8250 < low_pulse[0] && low_pulse[0] < 9250 && 4250 < high_pulse[0] && high_pulse[0] < 5750) {
             //conver the pulse into data
             for (num = 1; num < maxPulse; num++) {
-                if (440 < low_pulse[num] && low_pulse[num] < 680) {      //0.56ms
-                    if (1400 < high_pulse[num] && high_pulse[num] < 1800) {  //1.69ms = 1, 0.56ms = 0
-                        if (1 <= num && num < 9) {    //conver the pulse into address
-                            tempAddress |= 1 << (num - 1);
-                        }
-                        if (9 <= num && num < 17) {   //conver the pulse into inverse address
-                            inverseAddress |= 1 << (num - 9);
-                        }
-                        if (17 <= num && num < 25) {   //conver the pulse into command
-                            tempCommand |= 1 << (num - 17);
-                        }
-                        if (25 <= num && num < 33) {   //conver the pulse into inverse command
-                            inverseCommand |= 1 << (num - 25);
-                        }
+                //if (440 < low_pulse[num] && low_pulse[num] < 680) {      //0.56ms
+                if (1400 < high_pulse[num] && high_pulse[num] < 2000) {  //1.69ms = 1, 0.56ms = 0
+                    if (1 <= num && num < 9) {    //conver the pulse into address
+                        tempAddress |= 1 << (num - 1);
+                    }
+                    if (9 <= num && num < 17) {   //conver the pulse into inverse address
+                        inverseAddress |= 1 << (num - 9);
+                    }
+                    if (17 <= num && num < 25) {   //conver the pulse into command
+                        tempCommand |= 1 << (num - 17);
+                    }
+                    if (25 <= num && num < 33) {   //conver the pulse into inverse command
+                        inverseCommand |= 1 << (num - 25);
                     }
                 }
+                //}
             }
+            high_pulse[0] = 0;
             //check the data and return the data to IR receiver class.
             if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
                 IR_R.address = tempAddress;
                 IR_R.command = tempCommand;
-                high_pulse[0] = 0;
                 return;
             } else {  //Return -1 if check error.
                 IR_R.address = -1;
                 IR_R.command = -1;
-                high_pulse[0] = 0;
                 return;
             }
         }
@@ -209,18 +208,19 @@ namespace IR_receiver {
      * author: jieliang mo
      * Write the date: 2020-5-15
      */
+    let olddata: number = 0;
     //% subcategory="IR Remote"
     //% blockId=infrared_pressed_button
     //% block="IR button"
     //% weight=97
     export function pressedIrButton(): number {
         IR_data_processing();
-        /*let i: number = 0;
-        for (i = 0; i < 33; i++) {
-            basic.showNumber(low_pulse[i]);
-            basic.pause(500);
-        }*/
-        return IR_R.command;
+        if (IR_R.command != 255) {
+            olddata = IR_R.command;
+            return IR_R.command;
+        } else {
+            return olddata;
+        }
     }
 }
 
