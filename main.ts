@@ -97,21 +97,21 @@ namespace IR_receiver {
             if (8250 < LpulseTime && LpulseTime < 9250) {  //9ms
                 LpulseCounter = 0;
             }
-            if (LpulseCounter < maxPulse && repeatedPulse == false) {
+            if (LpulseCounter < maxPulse /*&& repeatedPulse == false*/) {
                 low_pulse[LpulseCounter] = LpulseTime;
                 LpulseCounter += 1;
             }
         });
         pins.onPulsed(IR_pin, PulseValue.High, () => {
             HpulseTime = pins.pulseDuration();
-            if (4250 < HpulseTime && HpulseTime < 4750) {  //4.5ms
-                HpulseCounter = 0;
-                repeatedPulse = false;
-            }
             if (2000 < HpulseTime && HpulseTime < 2500) {  //2.25ms
                 repeatedPulse = true;
             }
-            if (HpulseCounter < maxPulse && repeatedPulse == false) {
+            else if (4250 < HpulseTime && HpulseTime < 4750) {  //4.5ms
+                HpulseCounter = 0;
+                //repeatedPulse = false;
+            }
+            if (HpulseCounter < maxPulse /*&& repeatedPulse == false*/) {
                 high_pulse[HpulseCounter] = HpulseTime;
                 HpulseCounter += 1;
             }
