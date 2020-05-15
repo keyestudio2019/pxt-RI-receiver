@@ -1,6 +1,6 @@
 {
     "name": "keyestudio-ri-remote",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "keyestudio Infrared Wireless Module Kit for microbit.",
     "dependencies": {
         "core": "*",
