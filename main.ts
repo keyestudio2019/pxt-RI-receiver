@@ -185,6 +185,7 @@ namespace IR_receiver {
     //% weight=99
     export function connectInfrared(IR_pin: DigitalPin): void {
         IR_R.IR_pin = IR_pin;   //define IR receiver control pin
+        pins.setPull(IR_R.IR_pin, PinPullMode.PullUp);
         IR_init(IR_R.IR_pin);   //initialize the IR receiver
     }
     /**
