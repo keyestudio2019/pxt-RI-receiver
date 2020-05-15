@@ -50,6 +50,8 @@ const enum IrButton {
 /**
  * create IR_receiver namespace
  * use for keyestudio IR receiver and IR emission kit
+ * author: jieliang mo
+ * Write the date: 2020-5-15
  */
 //% color="#ff6800" weight=10 icon="\uf1eb"
 namespace IR_receiver {
@@ -116,8 +118,10 @@ namespace IR_receiver {
         });
     }
     /**
-     * Convert the pulse into data function
-     */
+    * Convert the pulse into data function
+    * author: jieliang mo
+    * Write the date: 2020-5-15
+    */
     function IR_data_processing() {
         let tempAddress: number = 0;
         let inverseAddress: number = 0;
@@ -169,7 +173,8 @@ namespace IR_receiver {
     }
     /**
      * Connects to the IR receiver module at the specified pin.
-     * @param pin IR receiver pin, eg: DigitalPin.P0
+     * author: jieliang mo
+     * Write the date: 2020-5-15
      */
     //% subcategory="IR Remote"
     //% blockId="infrared_connect"
@@ -184,7 +189,8 @@ namespace IR_receiver {
     }
     /**
      * Returns the command code of a specific IR button.
-     * @param button the button
+     * author: jieliang mo
+     * Write the date: 2020-5-15
      */
     //% subcategory="IR Remote"
     //% blockId=infrared_button
@@ -199,6 +205,8 @@ namespace IR_receiver {
     /**
      * Returns the code of the IR button that is currently pressed and 0 if no button is pressed.
      * It is recommended to delay 110ms to read the data once
+     * author: jieliang mo
+     * Write the date: 2020-5-15
      */
     //% subcategory="IR Remote"
     //% blockId=infrared_pressed_button

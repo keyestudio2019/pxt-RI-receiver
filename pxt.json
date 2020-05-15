@@ -1,7 +1,7 @@
 {
     "name": "pxt-ri-receiver",
     "version": "0.0.5",
-    "description": "",
+    "description": "keyestudio Infrared Wireless Module Kit for microbit.",
     "dependencies": {
         "core": "*",
         "radio": "*"
@@ -13,7 +13,7 @@
     "testFiles": [
         "test.ts"
     ],
-    "public": false,
+    "public": true,
     "preferredEditor": "tsprj",
     "installedVersion": "workspace:7b15ebfa-06d7-4c34-b272-5e68af16d967"
 }
