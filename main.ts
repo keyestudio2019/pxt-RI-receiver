@@ -1,60 +1,56 @@
-// Infrared Wireless Module Kit
+// keyestudio Infrared Wireless Module Kit for microbit
 // (receiver module+remote controller)
 // author: jieliang mo
 // Write the date: 2020-5-15
 
 const enum IrButton {
-    //% block="T"
+    //% block=" "
     Any = -1,
     //% block="▲"
-    Up = 0x62,
+    Up = 70,
     //% block=" "
     Unused_2 = -2,
     //% block="◀"
-    Left = 0x22,
+    Left = 68,
     //% block="OK"
-    Ok = 0x02,
+    Ok = 64,
     //% block="▶"
-    Right = 0xc2,
+    Right = 67,
     //% block=" "
     Unused_3 = -3,
     //% block="▼"
-    Down = 0xa8,
+    Down = 21,
     //% block=" "
     Unused_4 = -4,
     //% block="1"
-    Number_1 = 0x68,
+    Number_1 = 22,
     //% block="2"
-    Number_2 = 0x98,
+    Number_2 = 25,
     //% block="3"
-    Number_3 = 0xb0,
+    Number_3 = 13,
     //% block="4"
-    Number_4 = 0x30,
+    Number_4 = 12,
     //% block="5"
-    Number_5 = 0x18,
+    Number_5 = 24,
     //% block="6"
-    Number_6 = 0x7a,
+    Number_6 = 94,
     //% block="7"
-    Number_7 = 0x10,
+    Number_7 = 8,
     //% block="8"
-    Number_8 = 0x38,
+    Number_8 = 28,
     //% block="9"
-    Number_9 = 0x5a,
+    Number_9 = 90,
     //% block="*"
-    Star = 0x42,
+    Star = 66,
     //% block="0"
-    Number_0 = 0x4a,
+    Number_0 = 82,
     //% block="#"
-    Hash = 0x52
+    Hash = 74
 }
-
-const enum IrButtonAction {
-    //% block="pressed"
-    Pressed = 0,
-    //% block="released"
-    Released = 1
-}
-
+/**
+ * create IR_receiver namespace
+ * use for keyestudio IR receiver and IR emission kit
+ */
 //% color="#ff6800" weight=10 icon="\uf1eb"
 namespace IR_receiver {
     /**
@@ -176,24 +172,38 @@ namespace IR_receiver {
      * @param pin IR receiver pin, eg: DigitalPin.P0
      */
     //% subcategory="IR Remote"
-    //% blockId="makerbit_infrared_connect"
+    //% blockId="infrared_connect"
     //% block="connect IR receiver at %IR_pin"
     //% IR_pin.fieldEditor="gridpicker"
     //% IR_pin.fieldOptions.columns=4
     //% IR_pin.fieldOptions.tooltips="false"
-    //% weight=90
+    //% weight=99
     export function connectInfrared(IR_pin: DigitalPin): void {
         IR_R.IR_pin = IR_pin;   //define IR receiver control pin
         IR_init(IR_R.IR_pin);   //initialize the IR receiver
+    }
+    /**
+     * Returns the command code of a specific IR button.
+     * @param button the button
+     */
+    //% subcategory="IR Remote"
+    //% blockId=infrared_button
+    //% button.fieldEditor="gridpicker"
+    //% button.fieldOptions.columns=3
+    //% button.fieldOptions.tooltips="false"
+    //% block="IR button %button"
+    //% weight=98
+    export function irButton(button: IrButton): number {
+        return button as number;
     }
     /**
      * Returns the code of the IR button that is currently pressed and 0 if no button is pressed.
      * It is recommended to delay 110ms to read the data once
      */
     //% subcategory="IR Remote"
-    //% blockId=makerbit_infrared_pressed_button
+    //% blockId=infrared_pressed_button
     //% block="IR button"
-    //% weight=57
+    //% weight=97
     export function pressedIrButton(): number {
         IR_data_processing();
         /*let i: number = 0;
