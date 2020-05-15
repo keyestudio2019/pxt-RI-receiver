@@ -1,5 +1,7 @@
-// MakerBit blocks supporting a Keyestudio Infrared Wireless Module Kit
+// Infrared Wireless Module Kit
 // (receiver module+remote controller)
+// author: jieliang mo
+// Write the date: 2020-5-15
 
 const enum IrButton {
     //% block="T"
@@ -63,7 +65,7 @@ namespace IR_receiver {
             this.address = 0;
             this.command = 0;
         }
-        address: number;  
+        address: number;
         command: number;
         IR_pin: DigitalPin;
     }
@@ -130,8 +132,8 @@ namespace IR_receiver {
         if (8250 < low_pulse[0] && low_pulse[0] < 9250 && 4250 < high_pulse[0] && high_pulse[0] < 5750) {
             //conver the pulse into data
             for (num = 1; num < maxPulse; num++) {
-                if (460 < low_pulse[num] && low_pulse[num] < 660) {      //0.56ms
-                    if (1450 < high_pulse[num] && high_pulse[num] < 1800) {  //1.69ms = 1, 0.56ms = 0
+                if (440 < low_pulse[num] && low_pulse[num] < 680) {      //0.56ms
+                    if (1400 < high_pulse[num] && high_pulse[num] < 1800) {  //1.69ms = 1, 0.56ms = 0
                         if (1 <= num && num < 9) {    //conver the pulse into address
                             tempAddress |= 1 << (num - 1);
                         }
@@ -147,15 +149,27 @@ namespace IR_receiver {
                     }
                 }
             }
+            //check the data and return the data to IR receiver class.
+            if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
+                IR_R.address = tempAddress;
+                IR_R.command = tempCommand;
+                high_pulse[0] = 0;
+                return;
+            } else {  //Return -1 if check error.
+                IR_R.address = -1;
+                IR_R.command = -1;
+                high_pulse[0] = 0;
+                return;
+            }
         }
-        //check the data and return the data to IR receiver class.
-        if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
-            IR_R.address = tempAddress;
-            IR_R.command = tempCommand;
-        } else {  //Return -1 if check error.
-            IR_R.address = -1;
-            IR_R.command = -1;
+        if (repeatedPulse == true) {
+            //IR_R.address = 0x00;
+            IR_R.command = 0xff;
+            repeatedPulse = false;
+            return;
         }
+        IR_R.address = 0;
+        IR_R.command = 0;
     }
     /**
      * Connects to the IR receiver module at the specified pin.
