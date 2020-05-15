@@ -14,6 +14,8 @@
 
 Read more at https://makecode.microbit.org/extensions
 
+company websites: https://www.keyestudio.com
+
 ## Supported targets
 
 * for PXT/microbit
