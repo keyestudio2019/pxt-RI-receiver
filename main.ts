@@ -206,7 +206,7 @@ namespace IR_receiver {
      * Returns the code of the IR button that is currently pressed and 0 if no button is pressed.
      * It is recommended to delay 110ms to read the data once
      * author: jieliang mo
-     * Write the date: 2020-5-15
+     * Write the date: 2020-5-18
      */
     let olddata: number = 0;
     //% subcategory="IR Remote"
