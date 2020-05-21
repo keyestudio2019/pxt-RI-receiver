@@ -216,10 +216,10 @@ namespace IR_receiver {
     export function pressedIrButton(): number {
         IR_data_processing();
         if (IR_R.command != 255) {
-            olddata = IR_R.command;
+            //olddata = IR_R.command;
             return IR_R.command;
         } else {
-            return olddata;
+            return 0;
         }
     }
 }
