@@ -1,6 +1,7 @@
 // keyestudio Infrared Wireless Module Kit for microbit
 // (receiver module+remote controller)
 // author: jieliang mo
+// github:https://github.com/mworkfun
 // Write the date: 2020-5-15
 
 const enum IrButton {
@@ -120,6 +121,7 @@ namespace IR_receiver {
     /**
     * Convert the pulse into data function
     * author: jieliang mo
+    * github:https://github.com/mworkfun
     * Write the date: 2020-5-15
     */
     function IR_data_processing() {
@@ -129,8 +131,7 @@ namespace IR_receiver {
         let inverseCommand: number = 0;
         let num: number;
         //confirm start pulse
-        if (8250 < low_pulse[0] && low_pulse[0] < 9250 && 4250 < high_pulse[0] && high_pulse[0] < 5750
-            && HpulseCounter >= 33 && LpulseCounter >= 33) {
+        if (8250 < low_pulse[0] && low_pulse[0] < 9250 && HpulseCounter >= 33) {
             //conver the pulse into data
             for (num = 1; num < maxPulse; num++) {
                 //if (440 < low_pulse[num] && low_pulse[num] < 680) {      //0.56ms
@@ -150,32 +151,25 @@ namespace IR_receiver {
                 }
                 //}
             }
-            high_pulse[0] = 0;
-            //IR_R.address = 0;
-            IR_R.command = 0;
+            low_pulse[0] = 0;
             //check the data and return the data to IR receiver class.
             if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
-                //IR_R.address = tempAddress;
+                IR_R.address = tempAddress;
                 IR_R.command = tempCommand;
                 return;
             } else {  //Return -1 if check error.
-                //IR_R.address = -1;
+                IR_R.address = -1;
                 IR_R.command = -1;
                 return;
             }
         }
-        /*if (repeatedPulse == true) {
-            //IR_R.address = 0x00;
-            IR_R.command = 0xff;
-            repeatedPulse = false;
-            return;
-        }*/
-        //IR_R.address = 0;
+        IR_R.address = 0;
         IR_R.command = 0;
     }
     /**
      * Connects to the IR receiver module at the specified pin.
      * author: jieliang mo
+     * github:https://github.com/mworkfun
      * Write the date: 2020-5-15
      */
     //% subcategory="IR Remote"
@@ -193,6 +187,7 @@ namespace IR_receiver {
     /**
      * Returns the command code of a specific IR button.
      * author: jieliang mo
+     * github:https://github.com/mworkfun
      * Write the date: 2020-5-15
      */
     //% subcategory="IR Remote"
@@ -209,6 +204,7 @@ namespace IR_receiver {
      * Returns the code of the IR button that is currently pressed and 0 if no button is pressed.
      * It is recommended to delay 110ms to read the data once
      * author: jieliang mo
+     * github:https://github.com/mworkfun
      * Write the date: 2020-5-18
      */
     //% subcategory="IR Remote"
@@ -218,11 +214,6 @@ namespace IR_receiver {
     export function pressedIrButton(): number {
         IR_data_processing();
         return IR_R.command;
-        /*if (IR_R.command != 255) {
-            return IR_R.command;
-        } else {
-            return 0;
-        }*/
     }
 }
 
