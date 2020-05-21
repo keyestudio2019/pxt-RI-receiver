@@ -150,6 +150,8 @@ namespace IR_receiver {
                 //}
             }
             high_pulse[0] = 0;
+            IR_R.address = 0;
+            IR_R.command = 0;
             //check the data and return the data to IR receiver class.
             if ((tempAddress + inverseAddress == 0xff) && (tempCommand + inverseCommand == 0xff)) {
                 IR_R.address = tempAddress;
@@ -208,7 +210,6 @@ namespace IR_receiver {
      * author: jieliang mo
      * Write the date: 2020-5-18
      */
-    let olddata: number = 0;
     //% subcategory="IR Remote"
     //% blockId=infrared_pressed_button
     //% block="IR button"
@@ -216,7 +217,6 @@ namespace IR_receiver {
     export function pressedIrButton(): number {
         IR_data_processing();
         if (IR_R.command != 255) {
-            //olddata = IR_R.command;
             return IR_R.command;
         } else {
             return 0;
