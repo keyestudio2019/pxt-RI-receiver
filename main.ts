@@ -214,6 +214,7 @@ namespace IR_receiver {
     export function pressedIrButton(): number {
         IR_data_processing();
         return IR_R.command;
+        //////////////
     }
 }
 
