@@ -93,8 +93,8 @@ namespace irReceiver {
      * initialize the IR receiver function
      */
     function irInit(IR_pin: DigitalPin) {
-        pins.onPulsed(IR_pin, PulseValue.Low, () => { //interrupt event
-            LpulseTime = pins.pulseDuration();        //measure the pulse
+        pins.onPulsed(IR_pin, PulseValue.Low, () => {      //interrupt event
+            LpulseTime = pins.pulseDuration();             //measure the pulse
             if (8250 < LpulseTime && LpulseTime < 9250) {  //9ms
                 LpulseCounter = 0;
             }
