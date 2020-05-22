@@ -1,4 +1,4 @@
-# pxt-ri-receiver
+# pxt-IR-receiver
 
 
 
