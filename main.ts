@@ -55,11 +55,11 @@ const enum IrButton {
  * Write the date: 2020-5-15
  */
 //% color="#ff6800" weight=10 icon="\uf1eb"
-namespace IR_receiver {
+namespace irReceiver {
     /**
      * define a IR receiver class
      */
-    class IR_rec {
+    class irReceiver {
         constructor() {
             this.address = 0;
             this.command = 0;
@@ -69,7 +69,7 @@ namespace IR_receiver {
         IR_pin: DigitalPin;
     }
     //create a IR receiver class
-    let IR_R = new IR_rec;
+    let IR_R = new irReceiver;
 
     //define nec_IR maximum number of pulses is 33.
     //create 2 pulse cache array.
@@ -92,7 +92,7 @@ namespace IR_receiver {
     /**
      * initialize the IR receiver function
      */
-    function IR_init(IR_pin: DigitalPin) {
+    function irInit(IR_pin: DigitalPin) {
         pins.onPulsed(IR_pin, PulseValue.Low, () => { //interrupt event
             LpulseTime = pins.pulseDuration();        //measure the pulse
             if (8250 < LpulseTime && LpulseTime < 9250) {  //9ms
@@ -124,7 +124,7 @@ namespace IR_receiver {
     * github:https://github.com/mworkfun
     * Write the date: 2020-5-15
     */
-    function IR_data_processing() {
+    function irDataProcessing() {
         let tempAddress: number = 0;
         let inverseAddress: number = 0;
         let tempCommand: number = 0;
@@ -182,7 +182,7 @@ namespace IR_receiver {
     export function connectInfrared(IR_pin: DigitalPin): void {
         IR_R.IR_pin = IR_pin;   //define IR receiver control pin
         pins.setPull(IR_R.IR_pin, PinPullMode.PullUp);
-        IR_init(IR_R.IR_pin);   //initialize the IR receiver
+        irInit(IR_R.IR_pin);   //initialize the IR receiver
     }
     /**
      * Returns the command code of a specific IR button.
@@ -212,9 +212,8 @@ namespace IR_receiver {
     //% block="IR button"
     //% weight=97
     export function pressedIrButton(): number {
-        IR_data_processing();
+        irDataProcessing();
         return IR_R.command;
-        //////////////
     }
 }
 
