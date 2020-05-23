@@ -1,15 +1,21 @@
 # pxt-IR-receiver
+
 //Initialize infrared receiver using digitalPin
+
 irReceiver.connectInfrared(Pin: DigitalPin)
 
 //Key value on infrared transmitter
+
 irReceiver.irButton(button: IrButton)
 
 //Return IR button value
+
 //It will always return 0 when no button is pressed
+
 irReceiver.returnIrButton()
 
 github:https://github.com/mworkfun/pxt-RI-receiver.git
+
 company websites: https://www.keyestudio.com
 
 ## TODO
