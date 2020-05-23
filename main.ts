@@ -211,7 +211,7 @@ namespace irReceiver {
     //% blockId=infrared_pressed_button
     //% block="IR button"
     //% weight=97
-    export function pressedIrButton(): number {
+    export function returnIrButton(): number {
         irDataProcessing();
         return IR_R.command;
     }

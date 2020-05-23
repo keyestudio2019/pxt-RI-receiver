@@ -3,6 +3,6 @@
 irReceiver.irButton(0)
 basic.forever(() => {
     3
-    irReceiver.pressedIrButton()
+    irReceiver.returnIrButton()
     4
     })
