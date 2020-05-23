@@ -9,6 +9,8 @@ irReceiver.irButton(button: IrButton)
 //It will always return 0 when no button is pressed
 irReceiver.returnIrButton()
 
+company websites: https://www.keyestudio.com
+
 ## TODO
 
 - [ ] Add a reference for your blocks here
@@ -20,8 +22,6 @@ irReceiver.returnIrButton()
 - [ ] Get your package reviewed and approved https://makecode.microbit.org/extensions/approval
 
 Read more at https://makecode.microbit.org/extensions
-
-company websites: https://www.keyestudio.com
 
 ## Supported targets
 

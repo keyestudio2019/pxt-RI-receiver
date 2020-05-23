@@ -84,10 +84,10 @@ namespace irReceiver {
 
     let LpulseTime: number = 0;
     let HpulseTime: number = 0;
-    let pulse9ms: boolean = false;
-    let pulse4ms: boolean = false;
+    //let pulse9ms: boolean = false;
+    //let pulse4ms: boolean = false;
     //This variable will become true when the pulse is repeated
-    let repeatedPulse: boolean = false;
+    //let repeatedPulse: boolean = false;
 
     /**
      * initialize the IR receiver function
