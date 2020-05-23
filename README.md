@@ -16,7 +16,7 @@ irReceiver.returnIrButton()
 
 github:https://github.com/mworkfun/pxt-RI-receiver.git
 
-company websites: https://www.keyestudio.com
+product: https://wiki.keyestudio.com/Ks0026_keyestudio_Digital_IR_Receiver_Module
 
 ## TODO
 
