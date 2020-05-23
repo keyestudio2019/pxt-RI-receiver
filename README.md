@@ -9,6 +9,7 @@ irReceiver.irButton(button: IrButton)
 //It will always return 0 when no button is pressed
 irReceiver.returnIrButton()
 
+github:https://github.com/mworkfun/pxt-RI-receiver.git
 company websites: https://www.keyestudio.com
 
 ## TODO
