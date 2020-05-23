@@ -3,6 +3,7 @@
     "version": "0.0.6",
     "description": "keyestudio Infrared Wireless Module Kit for microbit.",
     "license": "MIT",
+    "icon": "icon.png",
     "dependencies": {
         "core": "*",
         "radio": "*"
