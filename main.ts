@@ -66,7 +66,7 @@ const enum IrButton {
  * Write the date: 2020-5-15
  */
 //% color="#ff6800" weight=10 icon="\uf1eb"
-namespace irReceiver {
+namespace irReceiver_V2 {
     /**
      * define a IR receiver class
      */
@@ -183,7 +183,7 @@ namespace irReceiver {
      * github:https://github.com/mworkfun
      * Write the date: 2020-5-15
      */
-    //% subcategory="IR Remote"
+    //% subcategory="IR Remote V1"
     //% blockId="infrared_connect"
     //% block="connect IR receiver at %IR_pin"
     //% IR_pin.fieldEditor="gridpicker"
