@@ -66,7 +66,7 @@ const enum IrButton {
  * Write the date: 2020-5-15
  */
 //% color="#ff6800" weight=10 icon="\uf1eb"
-namespace irReceiver_V2 {
+namespace irReceiver {
     /**
      * define a IR receiver class
      */
@@ -201,7 +201,7 @@ namespace irReceiver_V2 {
      * github:https://github.com/mworkfun
      * Write the date: 2020-5-15
      */
-    //% subcategory="IR Remote"
+    //% subcategory="IR Remote V1"
     //% blockId=infrared_button
     //% button.fieldEditor="gridpicker"
     //% button.fieldOptions.columns=3
@@ -218,7 +218,7 @@ namespace irReceiver_V2 {
      * github:https://github.com/mworkfun
      * Write the date: 2020-5-18
      */
-    //% subcategory="IR Remote"
+    //% subcategory="IR Remote V1"
     //% blockId=infrared_pressed_button
     //% block="IR button"
     //% weight=97
@@ -234,10 +234,15 @@ namespace irReceiver_V2 {
     function irCode(): number {
         return 0;
     }
-
+    
+    //% subcategory="IR Remote V2"
+    //% block="connect IR receiver at %IR_pin"
+    //% IR_pin.fieldEditor="gridpicker"
+    //% IR_pin.fieldOptions.columns=4
+    //% IR_pin.fieldOptions.tooltips="false"
     //% weight=5
     //% group="micro:bit(v2)"
-    //% blockId=IR_readv2 block="read IR key value"
+    //% blockId=IR_readv2 block="V2 IR receiver at %IR_pin"
     export function IR_readV2(): number {
         return valuotokeyConversion();
     }
