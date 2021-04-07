@@ -5,7 +5,8 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "radio": "*"
+        "radio": "*",
+        "microphone": "*"
     },
     "files": [
         "README.md",
@@ -23,7 +24,9 @@
         "test.ts"
     ],
     "public": true,
+    "supportedTargets": [
+        "microbit"
+    ],
     "preferredEditor": "tsprj",
-    "icon": "icon.png",
-    "installedVersion": "workspace:7b15ebfa-06d7-4c34-b272-5e68af16d967"
+    "icon": "icon.png"
 }
