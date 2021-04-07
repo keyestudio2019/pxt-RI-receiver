@@ -246,6 +246,8 @@ namespace irReceiver {
     export function IR_readV2(): number {
         return valuotokeyConversion();
     }
+
+    //% subcategory="IR Remote V2"
     //% weight=2
     //% group="micro:bit(v2)"
     //% blockId=IR_callbackUserv2 block="on IR received"
