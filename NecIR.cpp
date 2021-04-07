@@ -72,6 +72,7 @@ void pulse_deal(){
 //% subcategory="IR Remote V2"
 //% weight=2
 //% group="micro:bit(v2)"
+//% blockId=ir_init_v2  block="connect ir receiver to %pin"
 void remote_decode(Pins pin){
     data = 0x00;
     uint32_t lasttime = system_timer_current_time_us();
