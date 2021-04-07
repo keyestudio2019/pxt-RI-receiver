@@ -69,8 +69,6 @@ void pulse_deal(){
 
 }
 
-//% blockId=ir_init_v2
-//% block="connect ir receiver to %pin"
 void remote_decode(Pins pin){
     data = 0x00;
     uint32_t lasttime = system_timer_current_time_us();
