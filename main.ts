@@ -297,7 +297,14 @@ namespace irReceiver {
     //% subcategory="IR Remote V2"
     //% weight=2
     //% advanced=true shim=maqueenIRV2::remote_decode
-    function remote_decode(pin: Pins): void {
+    function remote_decode2(pin: Pins): void {
+        return
+    }
+
+    //% subcategory="IR Remote V2"
+    //% weight=5
+    //% group="micro:bit(v2)"
+    export function remote_decode(pin: Pins): void {
         return
     }
 }
