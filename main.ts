@@ -299,7 +299,7 @@ namespace irReceiver {
     //% weight=5
     //% group="micro:bit(v2)"
     //% advanced=true shim=maqueenIR::remote_decode2
-    function remote_decode2(pin: Pins): number {
+    function remote_decode2(pin: Pins): void {
         return valuotokeyConversion();
     }
 }
