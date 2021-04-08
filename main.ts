@@ -296,7 +296,7 @@ namespace irReceiver {
     })
 
     //% advanced=true shim=maqueenIRV2::remote_decode2
-    export function remote_decode2(pin: Pins): number {
+    function remote_decode2(pin: Pins): number {
         return valuotokeyConversion();
     }
 }
