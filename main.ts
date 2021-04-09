@@ -254,7 +254,7 @@ namespace irReceiver {
     //% weight=5
     //% group="micro:bit(v2)"
     //% blockId=IR_readv2 block="V2 IR receiver at %IR_pin"
-    export function IR_readV2(): number {
+    export function IR_readV2(IR_pin: DigitalPin): number {
         return valuotokeyConversion();
     }
 
@@ -306,9 +306,5 @@ namespace irReceiver {
         basic.pause(20);
     })
 
-    //% advanced=true shim=maqueenIRV2::remote_decode
-    function remote_decode(pin: Pins): number {
-        return valuotokeyConversion();
-    }
 }
 
