@@ -236,7 +236,6 @@ namespace irReceiver {
     }
     
     //% subcategory="IR Remote V2"
-    //% block="connect IR receiver at %IR_pin"
     //% IR_pin.fieldEditor="gridpicker"
     //% IR_pin.fieldOptions.columns=4
     //% IR_pin.fieldOptions.tooltips="false"
