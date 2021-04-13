@@ -15,6 +15,43 @@ interface KV {
     action: Action;
 }
 
+const enum irPins{
+  //% block="0"
+  P0=  0,
+  //% block="1"
+  P1=  1,
+  //% block="2"
+  P2=  2,
+  //% block="3"
+  P3=  3,
+  //% block="4"
+  P4=  4,
+  //% block="5"
+  P5=  5,
+  //% block="6"
+  P6=  6,
+  //% block="7"
+  P7=  7,
+  //% block="8"
+  P8=  8,
+  //% block="9"
+  P9=  9,
+  //% block="10"
+  P10= 10,
+  //% block="11"
+  P11= 11,
+  //% block="12"
+  P12= 12,
+  //% block="13"
+  P13= 13,
+  //% block="14"
+  P14= 14,
+  //% block="15"
+  P15= 15,
+  //% block="16"
+  P16= 16
+}
+
 const enum IrButton {
     //% block=" "
     Any = -1,
@@ -229,9 +266,10 @@ namespace irReceiver {
 
     let irstate:number;
     let state:number;
-
+    
     //% advanced=true shim=maqueenIRV2::irCode
-    function irCode(): number {
+    //% blockId=IR_readv2_code block="%IR_pin"
+    function irCode(IR_pin: irPins): number {
         return 0;
     }
 
@@ -243,14 +281,37 @@ namespace irReceiver {
     //% weight=5
     //% group="micro:bit(v2)"
     //% blockId=IR_readv2 block="V2 IR receiver at %IR_pin"
-    export function IR_readV2(IR_pin: DigitalPin): number {
-        return valuotokeyConversion();
+    export function IR_readV2(IR_pin: irPins): number {
+        let irdata:number;
+        switch(irCode(IR_pin)){
+            case 0xb946:irdata = 12;break;
+            case 0xbb44:irdata = 13;break;
+            case 0xea15:irdata = 14;break;
+            case 0xbc43:irdata = 15;break;
+            case 0xbf40:irdata = 16;break;
+            case 0xad52:irdata = 0;break;
+            case 0xe916:irdata = 1;break;
+            case 0xe619:irdata = 2;break;
+            case 0xf20d:irdata = 3;break;
+            case 0xf30C:irdata = 4;break;
+            case 0xe718:irdata = 5;break;
+            case 0xa15e:irdata = 6;break;
+            case 0xf708:irdata = 7;break;
+            case 0xe31c:irdata = 8;break;
+            case 0xa55a:irdata = 9;break;
+            case 0xbd42:irdata = 10;break;
+            case 0xb54a:irdata = 11;break;
+            default:
+            irdata = -1;
+        }
+        return irdata;
+        //return irCode();
     }
 
     //% subcategory="IR Remote V2"
     //% weight=2
     //% group="micro:bit(v2)"
-    //% blockId=IR_callbackUserv2 block="on IR received"
+    //% blockId=IR_callbackUserv2 block="on IR %IR_pin received"
     //% draggableParameters
     export function IR_callbackUserV2(cb: (message: number) => void) {
         state = 1;
@@ -258,9 +319,11 @@ namespace irReceiver {
             cb(irstate)
         }) 
     }
+    
+    let irPins:number;
     function valuotokeyConversion():number{
         let irdata:number;
-        switch(irCode()){
+        switch(irCode(irPins)){
             case 0xb946:irdata = 12;break;
             case 0xbb44:irdata = 13;break;
             case 0xea15:irdata = 14;break;
