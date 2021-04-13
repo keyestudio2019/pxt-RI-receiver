@@ -340,6 +340,7 @@ namespace irReceiver {
     
     //% blockId=IR_readv2_code block="%IR_pin"
     function irCode(IR_pin: DigitalPin): number {
+        serial.writeNumber(IR_pin);
         remote_decode(IR_pin);
         return 0;
     }
