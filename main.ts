@@ -235,18 +235,7 @@ namespace irReceiver {
         return 0;
     }
 
-    //% subcategory="IR Remote V2"
-    //% IR_pin.fieldEditor="gridpicker"
-    //% IR_pin.fieldOptions.columns=4
-    //% IR_pin.fieldOptions.tooltips="false"
-    //% weight=5
-    //% group="micro:bit(v2)"
-    //% blockId=ir_init_v2  block="connect ir receiver to %pin"
-    //% advanced=true shim=maqueenIRV2::remote_decode2
-    function remote_decode2(pin: Pins): number {
-        return valuotokeyConversion();
-    }
-    
+      
     //% subcategory="IR Remote V2"
     //% IR_pin.fieldEditor="gridpicker"
     //% IR_pin.fieldOptions.columns=4
