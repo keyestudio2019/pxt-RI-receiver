@@ -382,7 +382,7 @@ namespace irReceiver {
     //% subcategory="IR Remote V2"
     //% weight=2
     //% group="micro:bit(v2)"
-    //% blockId=IR_callbackUserv2 block="on IR %IR_pin received"
+    //% blockId=IR_callbackUserv2 block="on IR  received"
     //% draggableParameters
     export function IR_callbackUserV2(cb: (message: number) => void) {
         state = 1;
