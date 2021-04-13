@@ -10,15 +10,7 @@
     },
     "files": [
         "README.md",
-        "main.ts",
-        "NecIR.cpp",
-        "shims.d.ts",
-        "enums.d.ts",
-        "ReceiverIR.cpp",
-        "ReceiverIR.h",
-        "RemoteIR.h",
-        "TransmitterIR.cpp",
-        "TransmitterIR.h"
+        "main.ts"
     ],
     "testFiles": [
         "test.ts"
