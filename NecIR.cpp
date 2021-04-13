@@ -24,7 +24,7 @@ enum class Pins{
 
 //% color=50 weight=80
 //% icon="\uf1eb"
-namespace maqueenIRV2 { 
+namespace maqueenIRV2 {
 int ir_code = 0x00;
 int ir_addr = 0x00;
 int data;
