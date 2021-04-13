@@ -275,9 +275,9 @@ namespace irReceiver {
     
     //% blockId=logic_v2 block="%IR_pin"
     function logic_value(IR_pin: DigitalPin){//判断逻辑值"0"和"1"子函数
-        let low_time = pins.pulseIn(DigitalPin.P16, PulseValue.Low);  //获取低电平时间
+        let low_time = pins.pulseIn(IR_pin, PulseValue.Low);  //获取低电平时间
         if(low_time > 400 && low_time < 700){//低电平时间范围560us
-            let lasttime = pins.pulseIn(DigitalPin.P16, PulseValue.Low);  //获取高电平时间
+            let lasttime = pins.pulseIn(IR_pin, PulseValue.Low);  //获取高电平时间
             if(lasttime > 400 && lasttime < 700){//接着高电平560us
                 return 0;
             }else if(lasttime>1500 && lasttime < 1800){//接着高电平1.7ms
@@ -293,16 +293,16 @@ namespace irReceiver {
     //% blockId=IR_readv2_remote block="%IR_pin"
     function remote_decode(IR_pin: DigitalPin){
         data = 0x00;
-        let nowtime = pins.pulseIn(DigitalPin.P16, PulseValue.High);
+        let nowtime = pins.pulseIn(IR_pin, PulseValue.High);
         if(nowtime > 100000){//超过100 ms,表明此时没有按键按下
             ir_code = 0xff00;
             return;
         }
 
         //如果高电平持续时间不超过100ms
-        let low_time = pins.pulseIn(DigitalPin.P16, PulseValue.Low);
+        let low_time = pins.pulseIn(IR_pin, PulseValue.Low);
         if(low_time < 10000 && low_time > 8000){//9ms
-            let high_time = pins.pulseIn(DigitalPin.P16, PulseValue.High);
+            let high_time = pins.pulseIn(IR_pin, PulseValue.High);
             if(high_time > 4000 && high_time < 5000){//4.5ms,接收到了红外协议头且是新发送的数据。开始解析逻辑0和1
                 //pulse_deal(IR_pin);
                 let i;
@@ -328,7 +328,7 @@ namespace irReceiver {
                 return;//ir_code;
             }
             else if(high_time > 2000 && high_time < 2500){//2.25ms,表示发的跟上一个包一致
-                low_time = pins.pulseIn(DigitalPin.P16, PulseValue.Low);//低等待
+                low_time = pins.pulseIn(IR_pin, PulseValue.Low);//低等待
                 if(low_time > 500 && low_time < 700){//560us
                     //uBit.serial.printf("addr=0x%X,code = 0x%X\r\n",ir_addr,ir_code);
                     data = ir_code;
