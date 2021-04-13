@@ -108,6 +108,8 @@ void remote_decode(int irPin){
 
  //% 
 int irCode(int irPins){
+    serial.printf("irPins : ");
+    serial.printf(irPins);
     remote_decode(irPins);
     return data;
 }
