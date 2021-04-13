@@ -11,7 +11,9 @@
     "files": [
         "README.md",
         "main.ts",
-        "NecIR.cpp"
+        "NecIR.cpp",
+        "shims.d.ts",
+        "enums.d.ts"
     ],
     "testFiles": [
         "test.ts"
