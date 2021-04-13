@@ -284,7 +284,7 @@ namespace irReceiver {
                 return 1;
            }
         }
-        serial.writeNumber(IR_pin);
+        //serial.writeNumber(IR_pin);
         serial.writeLine("error");
         return -1;
     }
@@ -294,6 +294,7 @@ namespace irReceiver {
     function remote_decode(IR_pin: DigitalPin){
         data = 0x00;
         let nowtime = pins.pulseIn(IR_pin, PulseValue.High);
+        serial.writeNumber(nowtime);
         if(nowtime > 100000){//超过100 ms,表明此时没有按键按下
             ir_code = 0xff00;
             return;
@@ -340,7 +341,7 @@ namespace irReceiver {
     
     //% blockId=IR_readv2_code block="%IR_pin"
     function irCode(IR_pin: DigitalPin): number {
-        serial.writeNumber(IR_pin);
+        //serial.writeNumber(IR_pin);
         remote_decode(IR_pin);
         return 0;
     }
