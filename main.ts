@@ -270,7 +270,7 @@ namespace irReceiver {
     //% advanced=true shim=maqueenIRV2::irCode
     //% blockId=IR_readv2_code block="%IR_pin"
     function irCode(IR_pin: irPins): number {
-        serial.writeLine(IR_pin);
+        serial.writeNumber(IR_pin);
         return 0;
     }
 
