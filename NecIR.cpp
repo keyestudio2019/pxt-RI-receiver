@@ -71,7 +71,6 @@ void pulse_deal(int irPin){
 
 
 void remote_decode(int irPin){
-    printf(irPin);
     data = 0x00;
     uint32_t lasttime = system_timer_current_time_us();
     uint32_t nowtime;
@@ -108,8 +107,8 @@ void remote_decode(int irPin){
 
  //% 
 int irCode(int irPins){
-    serial.printf("irPins : ");
-    serial.printf(irPins);
+    uBit.serial.printf("irPins : ");
+    uBit.serial.printf(irPins);
     remote_decode(irPins);
     return data;
 }
